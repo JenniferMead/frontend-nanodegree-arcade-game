@@ -2,9 +2,18 @@ var Points = function (x, y){
   this.sprite = 'images/Star.png';
   this.x = x;
   this.y = y;
-} 
+}
 
-var star = new Points(200,300);
+Points.prototype.update = function(){
+
+};
+
+// Draw the enemy on the screen, required method for game
+Points.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var star = new Points(0,420);
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
