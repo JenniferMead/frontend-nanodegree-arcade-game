@@ -24,8 +24,8 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = 705;
+    canvas.height = 806;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -80,6 +80,8 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
          player.checkCollisions();
+         player.checkBlueCollision();
+         player.checkOrangeCollision();
     }
 
     /* This is called by the update function and loops through all of the
@@ -93,8 +95,12 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+
+
+        reverseEnemies.update();
         player.update();
-        star.update();
+        gem1.update();
+        gem2.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -112,11 +118,13 @@ var Engine = (function(global) {
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
                 'images/stone-block.png',   // Row 3 of 3 of stone
+                'images/stone-block.png',
                 'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/grass-block.png',
+                'images/grass-block.png'     // Row 2 of 2 of grass
             ],
-            numRows = 6,
-            numCols = 5,
+            numRows = 8,
+            numCols = 7,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
@@ -150,9 +158,11 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
+        reverseEnemies.render();
         player.render();
         star.render();
+        gem1.render();
+        gem2.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -174,7 +184,9 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png',
         'images/char-princess-girl.png',
-        'images/Star.png'
+        'images/Star.png',
+        'images/GemBlue.png',
+        'images/GemOrange.png'
 
     ]);
     Resources.onReady(init);
