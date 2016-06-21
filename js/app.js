@@ -98,8 +98,7 @@ var ForwardEnemies = function(){
 ForwardEnemies.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
-    // all computers.
-   At that point it starts from x = 0 and is given a newly generated random speed
+    // all computers. 
     if(this.x < 705){
           //This sets the speed of movement up until the enemy reaches the end of the canvas.
       this.x += (this.speed * dt);
