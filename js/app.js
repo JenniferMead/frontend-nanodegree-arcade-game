@@ -46,12 +46,12 @@ var BlueGem = function () {
 
 BlueGem.prototype = Object.create(ExtraPoints.prototype);
 
+BlueGem.prototype.constructor = BlueGem;
+
 //Renders the blue gem onto the canvas
 BlueGem.prototype.render = function () {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-BlueGem.prototype.constructor = BlueGem;
 
 //The second subclass constructor called OrangeGem
 //Creates the orange gem which is worth 2 points
@@ -65,12 +65,12 @@ var OrangeGem = function () {
 
 OrangeGem.prototype = Object.create(ExtraPoints.prototype);
 
+OrangeGem.prototype.constructor = OrangeGem;
+
 //Renders the orange gem onto the canvas
 OrangeGem.prototype.render = function () {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-OrangeGem.prototype.constructor = OrangeGem;
 
 //This code creates the enemies our player must avoid
 //They move along the screen horizontally and any collision with them ends the round and causes the player to move back to the beginning
@@ -95,6 +95,10 @@ var ForwardEnemies = function () {
   Enemy.call(this);
 };
 
+ForwardEnemies.prototype = Object.create(Enemy.prototype);
+
+ForwardEnemies.prototype.constructor = ForwardEnemies;
+
 //This code allows the enemies to move
 ForwardEnemies.prototype.update = function (dt) {
   // You should multiply any movement by the dt parameter
@@ -114,14 +118,16 @@ ForwardEnemies.prototype.update = function (dt) {
     }
 };
 
-ForwardEnemies.prototype = Object.create(Enemy.prototype);
 
-ForwardEnemies.prototype.constructor = ForwardEnemies;
 
 //The ReverseEnemies subclass constructor
 var ReverseEnemies = function () {
   Enemy.call(this);
 };
+
+ReverseEnemies.prototype = Object.create(Enemy.prototype);
+
+ReverseEnemies.prototype.constructor = ReverseEnemies;
 
 //This code allows the enemies to move
 ReverseEnemies.prototype.update = function (dt) {
@@ -137,9 +143,7 @@ ReverseEnemies.prototype.update = function (dt) {
     }
 };
 
-ReverseEnemies.prototype = Object.create(Enemy.prototype);
 
-ReverseEnemies.prototype.constructor = ReverseEnemies;
 
 //This code allows for the creation of the player Object
 //The playes goal is to reach the water without colliding with any bugs and
@@ -164,8 +168,8 @@ Player.prototype.update = function () {
   //if the player reaches the water
   if (this.y <0.5) {
     //Reset the x and y variables
-    this.y = 400;
-    this.x = 200;
+    this.y = 475;
+    this.x = 300;
     //Add one point to the players score
     this.score +=1;
   }
@@ -183,8 +187,8 @@ Player.prototype.checkCollisions = function () {
     this.y < allEnemies[i].y + 75 &&
     75 + this.y > allEnemies[i].y) {
       //If the player did, reset their position
-      this.y = 400;
-      this.x = 200;
+      this.y = 475;
+      this.x = 300;
       //Compare the current score to the high score
       //If the current score is higher, the high score value is updated
       if (this.score > highScore) {
@@ -207,8 +211,8 @@ Player.prototype.checkReverseCollisions = function () {
     this.y < reverseEnemies.y + 75 &&
     75 + this.y > reverseEnemies.y) {
       //If the player did, reset their position
-      this.y = 400;
-      this.x = 200;
+      this.y = 475;
+      this.x = 300;
       //Compare the current score to the high score
       //If the current score is higher, the high score value is updated
       if (this.score > highScore) {
@@ -278,9 +282,9 @@ Player.prototype.handleInput = function (key) {
 Player.prototype.render = function () {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   ctx.font = '30px Impact';
-  ctx.fillText('= x '+this.score, 105, 625);
-  ctx.fillText('High', 315, 590);
-  ctx.fillText('Score     =  ' +highScore, 315, 625);
+  ctx.fillText('= x '+this.score, 105, 700);
+  ctx.fillText('High', 415, 665);
+  ctx.fillText('Score     =  ' +highScore, 415, 700);
 };
 
 // This listens for key presses and sends the keys to your
@@ -298,7 +302,7 @@ document.addEventListener('keyup', function(e) {
 
 //Instatiate all objects
 //Instantiation of a new star object from the Star constructor function
-var star = new Star(0,505);
+var star = new Star(0,575);
 
 //Instantiate two new gem objects
 var gem1 = new BlueGem();
@@ -315,4 +319,4 @@ allEnemies[2] = new ForwardEnemies(0, 310);
 var reverseEnemies = new ReverseEnemies(700, 145);
 
 //instatiating the player object
-var player = new Player(200, 400);
+var player = new Player(300, 475);
