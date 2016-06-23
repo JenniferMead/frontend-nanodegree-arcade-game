@@ -36,7 +36,7 @@ ExtraPoints.prototype.update = function () {
 
 //The first subclass constructor called BlueGem
 //Creates the blue gem which is worth 1 point
-var BlueGem = function (x, y) {
+var BlueGem = function () {
   ExtraPoints.call(this);
   //Incorporates the image
   this.sprite = 'images/GemBlue.png';
