@@ -80,7 +80,6 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
          player.checkCollisions();
-         player.checkReverseCollisions();
          player.checkBlueCollision();
          player.checkOrangeCollision();
     }
@@ -96,7 +95,6 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        reverseEnemies.update();
         player.update();
         gem1.update();
         gem2.update();
@@ -157,7 +155,6 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-        reverseEnemies.render();
         player.render();
         star.render();
         gem1.render();

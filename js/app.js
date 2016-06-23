@@ -36,7 +36,7 @@ ExtraPoints.prototype.update = function () {
 
 //The first subclass constructor called BlueGem
 //Creates the blue gem which is worth 1 point
-var BlueGem = function () {
+var BlueGem = function (x, y) {
   ExtraPoints.call(this);
   //Incorporates the image
   this.sprite = 'images/GemBlue.png';
@@ -74,33 +74,19 @@ OrangeGem.prototype.render = function () {
 
 //This code creates the enemies our player must avoid
 //They move along the screen horizontally and any collision with them ends the round and causes the player to move back to the beginning
-//The Enemy superclass constructor. The subclasses are divided between enemies that move to the right or to the left
+//The Enemy constructor.
 var Enemy = function (x, y) {
   //Inserts the enemy image
   this.sprite = 'images/enemy-bug.png';
   //Sets the x and y variables for the enemy initial location
   this.x = x;
   this.y = y;
+  //Sets a random speed
+  this.speed = (250 * Math.random()) + 100;
 };
-
-//Renders the enemy onto the canvas
-Enemy.prototype.render = function () {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-//Now I am creating two subclass constructors, one for enemies that move
-//forward (to the right), and one for a single enemy that moves in reverse (to the left)
-//The ForwardEnemies the sublclass constructor
-var ForwardEnemies = function () {
-  Enemy.call(this);
-};
-
-ForwardEnemies.prototype = Object.create(Enemy.prototype);
-
-ForwardEnemies.prototype.constructor = ForwardEnemies;
 
 //This code allows the enemies to move
-ForwardEnemies.prototype.update = function (dt) {
+Enemy.prototype.update = function (dt) {
   // You should multiply any movement by the dt parameter
   // which will ensure the game runs at the same speed for
   // all computers.
@@ -118,32 +104,10 @@ ForwardEnemies.prototype.update = function (dt) {
     }
 };
 
-
-
-//The ReverseEnemies subclass constructor
-var ReverseEnemies = function () {
-  Enemy.call(this);
+//Renders the enemy onto the canvas
+Enemy.prototype.render = function () {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-ReverseEnemies.prototype = Object.create(Enemy.prototype);
-
-ReverseEnemies.prototype.constructor = ReverseEnemies;
-
-//This code allows the enemies to move
-ReverseEnemies.prototype.update = function (dt) {
-  if (this.x > 5) {
-    //This sets the speed of movement up until the enemy reaches the beginning of the canvas by decrementing the x value
-    this.x -= (this.speed * dt);
-  }
-  //If the enemy has reached the beginning of the canvas (<5 pixels) it resets to
-  //the x location of 700 and generates a new random speed
-    else {
-      this.x = 700;
-      this.speed = (250 * Math.random()) + 100;
-    }
-};
-
-
 
 //This code allows for the creation of the player Object
 //The playes goal is to reach the water without colliding with any bugs and
@@ -175,13 +139,13 @@ Player.prototype.update = function () {
   }
 };
 
-//This code checks for collisions between the player and the forward moving enemy bugs
+//This code checks for collisions between the player and the enemy bugs
 //If a collision is detected the round ends and the players position is restarted
 //and the score is checked against the high score.
 //If its higher than the high score, the current score becomes the high score
 Player.prototype.checkCollisions = function () {
-  //Checks all 3 forward moving bug locations to see if the player collided with any of them
-  for (var i=0; i<3; i++) {
+  //Checks all enemy bug locations to see if the player collided with any of them
+  for (var i=0; i<4; i++) {
     if (this.x < allEnemies[i].x + 50 &&
     this.x + 50 > allEnemies[i].x &&
     this.y < allEnemies[i].y + 75 &&
@@ -201,29 +165,6 @@ Player.prototype.checkCollisions = function () {
       } //do I need semicolons here?
     }
   };
-};
-
-//This code checks for collisions between the player and the reverse moving enemy bug
-Player.prototype.checkReverseCollisions = function () {
-  //Checks the reverse moving bug location to see if the player collided with it
-    if (this.x < reverseEnemies.x + 50 &&
-    this.x + 50 > reverseEnemies.x &&
-    this.y < reverseEnemies.y + 75 &&
-    75 + this.y > reverseEnemies.y) {
-      //If the player did, reset their position
-      this.y = 475;
-      this.x = 300;
-      //Compare the current score to the high score
-      //If the current score is higher, the high score value is updated
-      if (this.score > highScore) {
-        highScore = this.score;
-        this.score = 0;
-      }
-      //otherwide the current score is simply reset to 0
-      else {
-        this.score = 0;
-      } //do I need semicolons here?
-    }
 };
 
 //this code checks for collisions between the player and the blue gem.
@@ -309,14 +250,13 @@ var gem1 = new BlueGem();
 var gem2 = new OrangeGem();
 
 // Place all enemy objects in an array called allEnemies
-//instantiating the forward moving enemy bug objects
 var allEnemies = [];
-allEnemies[0] = new ForwardEnemies(0, 65);
-allEnemies[1] = new ForwardEnemies(0, 230);
-allEnemies[2] = new ForwardEnemies(0, 310);
+//Instantiate new enemy bug objects
+allEnemies[0] = new Enemy(0, 60);
+allEnemies[1] = new Enemy(0, 140);
+allEnemies[2] = new Enemy(0, 230);
+allEnemies[3] = new Enemy(0, 310);
 
-//instantiating the reverse moving enemy bug object
-var reverseEnemies = new ReverseEnemies(700, 145);
 
 //instatiating the player object
 var player = new Player(300, 475);
