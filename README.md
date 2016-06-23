@@ -28,4 +28,4 @@ Up arrow: moves the player up
 Down arrow: moves the player down
 
 #Resources
-* Udacities front-end web developer nanodegree [program] (https://www.udacity.com)
+* Udacity Front-End Web Developer Nanodegree [program] (https://www.udacity.com)
