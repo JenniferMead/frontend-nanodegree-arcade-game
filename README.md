@@ -26,3 +26,6 @@ Left arrow: moves the player left
 Right arrow: moves the player right
 Up arrow: moves the player up
 Down arrow: moves the player down
+
+#Resources
+* Udacities front-end web developer nanodegree [program] (https://www.udacity.com)
